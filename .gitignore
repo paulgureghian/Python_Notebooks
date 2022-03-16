@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+TensorFlow/Image_Classifier_Project/~/tensorflow_datasets/oxford_flowers102/2.1.1/oxford_flowers102-validation.tfrecord-00000-of-00001
+TensorFlow/Image_Classifier_Project/~/tensorflow_datasets/oxford_flowers102/2.1.1/oxford_flowers102-train.tfrecord-00000-of-00001
+TensorFlow/Image_Classifier_Project/~/tensorflow_datasets/oxford_flowers102/2.1.1/oxford_flowers102-test.tfrecord-00001-of-00002
+TensorFlow/Image_Classifier_Project/~/tensorflow_datasets/oxford_flowers102/2.1.1/oxford_flowers102-test.tfrecord-00000-of-00002
