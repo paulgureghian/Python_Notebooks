@@ -34,11 +34,14 @@ def process_image(image):
     return image
 
 # Make predictions.
-def predict(test_images, model, top_k):
+def predict(test_images, keras_model, top_k):
     
+    test_images = Image.open(test_images)
+    print(type(test_images))
     test_images = np.array(test_images)
     processed_test_images = process_image(test_images)
     expanded_processed_test_images = np.expand_dims(processed_test_images, axis=0)
+    print("Test images shape: ", expanded_processed_test_images.shape)
     predictions = keras_model.predict(expanded_processed_test_images)
     top_k_values, top_k_indices = tf.nn.top_k(predictions, k=top_k)
     
@@ -49,28 +52,9 @@ def predict(test_images, model, top_k):
     print("The 'classes' are: ", top_k_indices)
     
     return top_k_values, top_k_indices
-
-# More imports.
-import glob
-import matplotlib.image as mpimg
-
-# Call the predict function and print the results.
-for image in glob.glob('/test_images/*'):
-
- print(image)   
- test_images = Image.open(image)
-    
- top_k_values, top_k_indices = predict(test_images, keras_model, 5)
- 
- flower_names = []
- print("Class names:")
-    
- for idx in top_k_indices[0]:
-    
-    print("-", label_map[str(idx + 1)])
-    flower_names.append(label_map[str(idx + 1)])
-    
+   
 # Implement the 'argparse' module.
+# Call the predict function.
 if __name__ == '__main__':
     
     print('predict.py, running')
@@ -91,6 +75,7 @@ if __name__ == '__main__':
     
     test_images = args.arg1
     keras_model = args.arg2
+    keras_model = tf.keras.models.load_model(keras_model, custom_objects={'KerasLayer':hub.KerasLayer})
     top_k = args.top_k
     
     with open(args.category_names, 'r') as f:
@@ -101,20 +86,3 @@ if __name__ == '__main__':
     print("The probabilities are: ", probs)
     print("The classes are: ", classes)
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
