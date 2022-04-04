@@ -21,7 +21,7 @@ class_names = {}
 # Read in the label_map file.
 json_file = open('label_map.json')
 label_map = json.load(json_file)
-#print(label_map) 
+#print(label_map)
 
 # Resize and normalize the input.
 def process_image(image):
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('arg1')
     parser.add_argument('arg2')
-    parser.add_argument('--top_k')
+    parser.add_argument('--top_k', type=int)
     parser.add_argument('--category_names')
     
     args = parser.parse_args()
@@ -77,12 +77,25 @@ if __name__ == '__main__':
     keras_model = args.arg2
     keras_model = tf.keras.models.load_model(keras_model, custom_objects={'KerasLayer':hub.KerasLayer})
     top_k = args.top_k
-    
-    with open(args.category_names, 'r') as f:
-        class_names = json.load(f)
-        
+           
     probs, classes = predict(test_images, keras_model, top_k)
     
     print("The probabilities are: ", probs)
     print("The classes are: ", classes)
    
+    with open(args.category_names, 'r') as f:
+        class_names = json.load(f)
+        
+        flower_names = []
+        print("Class names:")
+        
+        for idx in classes[0]:
+            print("-", class_names[str(idx)])
+            
+        
+        
+        
+        
+        
+
+
