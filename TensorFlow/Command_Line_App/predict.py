@@ -1,6 +1,7 @@
 # Created by Paul A. Gureghian in Mar 2022.
 
 # Imports 
+import os
 import sys
 import time
 import json
@@ -11,6 +12,11 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import tensorflow_datasets as tfds
+
+
+# Suppress warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 
 # Define variables 
 batch_size = 32 
@@ -23,6 +29,7 @@ json_file = open('label_map.json')
 label_map = json.load(json_file)
 #print(label_map)
 
+
 # Resize and normalize the input.
 def process_image(image):
     
@@ -32,6 +39,7 @@ def process_image(image):
     image = image.numpy()
     
     return image
+
 
 # Make predictions.
 def predict(test_images, keras_model, top_k):
@@ -53,6 +61,7 @@ def predict(test_images, keras_model, top_k):
     
     return top_k_values, top_k_indices
    
+    
 # Implement the 'argparse' module.
 # Call the predict function.
 if __name__ == '__main__':
@@ -75,7 +84,7 @@ if __name__ == '__main__':
     
     test_images = args.arg1
     keras_model = args.arg2
-    keras_model = tf.keras.models.load_model(keras_model, custom_objects={'KerasLayer':hub.KerasLayer})
+    keras_model = tf.keras.models.load_model(keras_model, compile=False, custom_objects={'KerasLayer':hub.KerasLayer})
     top_k = args.top_k
            
     probs, classes = predict(test_images, keras_model, top_k)
