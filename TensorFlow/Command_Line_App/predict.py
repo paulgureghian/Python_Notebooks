@@ -99,7 +99,7 @@ if __name__ == '__main__':
         print("Class names:")
         
         for idx in classes[0]:
-            print("-", class_names[str(idx)])
+            print("-", class_names[str(idx + 1)])
             
         
         
